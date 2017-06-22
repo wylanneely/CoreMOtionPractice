@@ -9,47 +9,33 @@
 import Foundation
 import CoreMotion
 
-
 class CoreMotionController {
-    
     
     var motionManager = CMMotionManager()
     let pedometer = CMPedometer()
     
-    
     var pedometerData: CMPedometerData?
+    var gyroRotationRate: CMRotationRate?
+    var acceleration: CMAcceleration?
     
-    func startMotionUpdates(){
-        motionManager.accelerometerUpdateInterval = CCDirector.sharedDirector().animationInterval
+    func startMotionUpdates() {
+        motionManager.accelerometerUpdateInterval = 1.0
         motionManager.startAccelerometerUpdates()
-        motionManager.gyroUpdateInterval = CCDirector.sharedDirector().animationInterval
+        motionManager.gyroUpdateInterval = 1.0
         motionManager.startGyroUpdates()
-        
-        
     }
-    
-    func getPedometerData( pedometer: CMPedometer){
+     func update() {
         
-        pedometer.queryPedometerData(from: Date(), to: Date.init(timeInterval: 2.00, since: Date())) { (data, error) in
-            if let error = error {
-                NSLog("Error while querying data: \(error.localizedDescription)")
-            }
-           self.pedometerData = data
-        }
+        guard let accelData = motionManager.accelerometerData else {print("accelData was nil"); return}
+        guard let gyroData = motionManager.gyroData else {print("gyroData was nil") ;return}
+        let rotationRate = gyroData.rotationRate
+        let acceleration = accelData.acceleration
+        self.acceleration = acceleration
+        self.gyroRotationRate = rotationRate
+        
+        NSLog("accel x: %f, y: %f, z: %f", acceleration.x, acceleration.y, acceleration.z)
+        NSLog("gyro x: %f, y: %f, z: %f", rotationRate.x, rotationRate.y, rotationRate.z)
     }
-    
-   func readPedometerData(perometerData: CMPedometerData?){
-    guard let perometerData = perometerData else {return}
-        
-        
-        guard let averagePace = perometerData.averageActivePace as? NSInteger else { return}
-        
-        print("\(averagePace)")
-        
-        
-    }
-    
-    
     
     
 }

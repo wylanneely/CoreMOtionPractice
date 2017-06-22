@@ -85,8 +85,8 @@
 			children = (
 				B2D9BA671EFB6A4D0088A498 /* Main.storyboard */,
 				B2C548131EFC14F000CFA710 /* ViewControllers */,
-				B2C548121EFC14F000CFA710 /* Resources */,
 				B2C548111EFC148D00CFA710 /* OtherControllers */,
+				B2C548121EFC14F000CFA710 /* Resources */,
 			);
 			path = CoreMotionTesting;
 			sourceTree = "<group>";
